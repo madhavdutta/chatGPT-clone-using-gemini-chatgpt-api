@@ -9,7 +9,7 @@ import rehypeRaw from 'rehype-raw';
 
 const MessageList = ({ messages }) => {
   return (
-    <div className="space-y-8 max-w-4xl mx-auto">
+    <div className="space-y-8 w-full">
       {messages.map((message, index) => (
         <Message key={index} message={message} index={index} />
       ))}
@@ -38,7 +38,7 @@ const Message = memo(({ message, index }) => {
         )}
       </div>
       
-      <div className="flex-1">
+      <div className="flex-1 min-w-0">
         <div className="flex items-center mb-2">
           <span className="font-medium">
             {isUser ? 'You' : 'xBAI'}

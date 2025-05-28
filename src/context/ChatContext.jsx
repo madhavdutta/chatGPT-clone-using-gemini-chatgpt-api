@@ -4,12 +4,9 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 
 export const ChatContext = createContext();
 
-// Use the API key directly
-const API_KEY = 'AIzaSyD0NIptTIblUjAhgMVa4BsUkA3dGB4NvpE';
-// Initialize the API with the key
-const genAI = new GoogleGenerativeAI(API_KEY);
-
-// Updated to use Gemini 2.5 model
+// Default API key
+const DEFAULT_API_KEY = 'AIzaSyD0NIptTIblUjAhgMVa4BsUkA3dGB4NvpE';
+// Updated to use Gemini 1.5 model
 const MODEL_NAME = 'gemini-1.5-pro';
 
 export const ChatProvider = ({ children }) => {
@@ -21,14 +18,30 @@ export const ChatProvider = ({ children }) => {
   const [selectedModel, setSelectedModel] = useState(MODEL_NAME);
   const [streamingChatId, setStreamingChatId] = useState(null);
   const [streamingMessageIndex, setStreamingMessageIndex] = useState(null);
+  const [apiKey, setApiKey] = useState(null);
+
+  // Load API key from localStorage on initial render
+  useEffect(() => {
+    const savedApiKey = localStorage.getItem('geminiApiKey');
+    if (savedApiKey) {
+      setApiKey(savedApiKey);
+    }
+  }, []);
+
+  // Initialize the API with the key
+  const getGenAI = () => {
+    const keyToUse = apiKey || DEFAULT_API_KEY;
+    return new GoogleGenerativeAI(keyToUse);
+  };
 
   // Load available models on initial render
   useEffect(() => {
     const fetchModels = async () => {
       try {
+        const keyToUse = apiKey || DEFAULT_API_KEY;
         // Fetch available models using fetch API directly
         const response = await fetch(
-          'https://generativelanguage.googleapis.com/v1beta/models?key=' + API_KEY
+          `https://generativelanguage.googleapis.com/v1beta/models?key=${keyToUse}`
         );
         
         if (!response.ok) {
@@ -46,6 +59,9 @@ export const ChatProvider = ({ children }) => {
         if (!modelNames.includes(MODEL_NAME)) {
           console.warn(`Model ${MODEL_NAME} not found in available models. Available models: ${modelNames.join(', ')}`);
         }
+
+        // Clear any previous errors
+        setModelError(null);
       } catch (error) {
         console.error('Error fetching models:', error);
         setModelError(error.message);
@@ -53,7 +69,7 @@ export const ChatProvider = ({ children }) => {
     };
     
     fetchModels();
-  }, []);
+  }, [apiKey]);
 
   // Load chats from localStorage on initial render
   useEffect(() => {
@@ -83,6 +99,16 @@ export const ChatProvider = ({ children }) => {
       localStorage.setItem('activeChatId', activeChatId);
     }
   }, [activeChatId]);
+
+  const updateApiKey = (newKey) => {
+    if (newKey) {
+      setApiKey(newKey);
+      localStorage.setItem('geminiApiKey', newKey);
+    } else {
+      setApiKey(null);
+      localStorage.removeItem('geminiApiKey');
+    }
+  };
 
   const createNewChat = () => {
     const newChatId = uuidv4();
@@ -178,7 +204,8 @@ export const ChatProvider = ({ children }) => {
       // Get the active chat with the updated messages
       const activeChat = updatedChats.find(chat => chat.id === activeChatId);
       
-      // Initialize the model with Gemini 2.5
+      // Initialize the model with Gemini
+      const genAI = getGenAI();
       const model = genAI.getGenerativeModel({ model: selectedModel });
       
       // Convert previous messages to the format expected by the API
@@ -317,6 +344,7 @@ export const ChatProvider = ({ children }) => {
         selectedModel,
         streamingChatId,
         streamingMessageIndex,
+        apiKey,
         setSelectedModel,
         setActiveChatId,
         createNewChat,
@@ -325,6 +353,7 @@ export const ChatProvider = ({ children }) => {
         getActiveChat,
         sendMessage,
         clearChats,
+        updateApiKey,
       }}
     >
       {children}

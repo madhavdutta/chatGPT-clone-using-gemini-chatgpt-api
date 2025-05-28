@@ -9,6 +9,7 @@ const ChatArea = () => {
   const { getActiveChat, loading, modelError } = useContext(ChatContext);
   const activeChat = getActiveChat();
   const messagesEndRef = useRef(null);
+  const chatContainerRef = useRef(null);
 
   // Scroll to bottom when messages change
   useEffect(() => {
@@ -18,20 +19,25 @@ const ChatArea = () => {
   }, [activeChat?.messages]);
 
   return (
-    <main className="flex-1 flex flex-col h-full overflow-hidden">
-      <div className="flex-1 overflow-y-auto">
-        {!activeChat || activeChat.messages.length === 0 ? (
-          <WelcomeScreen />
-        ) : (
-          <div className="p-4 md:p-6">
-            <MessageList messages={activeChat.messages} />
-            <div ref={messagesEndRef} />
-          </div>
-        )}
+    <main className="flex-1 flex flex-col h-full relative">
+      <div 
+        ref={chatContainerRef}
+        className="flex-1 overflow-y-auto pb-32"
+      >
+        <div className="w-full max-w-3xl mx-auto px-4 md:px-6">
+          {!activeChat || activeChat.messages.length === 0 ? (
+            <WelcomeScreen />
+          ) : (
+            <div className="py-6">
+              <MessageList messages={activeChat.messages} />
+              <div ref={messagesEndRef} />
+            </div>
+          )}
+        </div>
       </div>
       
-      <div className="p-4 md:p-6 flex flex-col items-center">
-        <div className="w-full max-w-3xl">
+      <div className="absolute bottom-0 left-0 right-0 border-t border-divider bg-surface py-4 px-4">
+        <div className="w-full max-w-3xl mx-auto">
           <MessageInput isLoading={loading} />
           <FeatureButtons />
           {modelError && (

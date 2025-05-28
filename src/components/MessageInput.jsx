@@ -1,19 +1,17 @@
 import { useState, useContext, useRef, useEffect } from 'react';
-import { FiSend, FiMic, FiStopCircle } from 'react-icons/fi';
+import { FiSend, FiX } from 'react-icons/fi';
 import { ChatContext } from '../context/ChatContext';
 
 const MessageInput = ({ isLoading }) => {
   const [message, setMessage] = useState('');
-  const { sendMessage, stopGenerating } = useContext(ChatContext);
+  const { sendMessage } = useContext(ChatContext);
   const textareaRef = useRef(null);
 
-  // Auto-resize textarea
+  // Auto-resize textarea based on content
   useEffect(() => {
-    const textarea = textareaRef.current;
-    if (textarea) {
-      textarea.style.height = 'auto';
-      const newHeight = Math.min(textarea.scrollHeight, 200);
-      textarea.style.height = `${newHeight}px`;
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 200)}px`;
     }
   }, [message]);
 
@@ -22,6 +20,10 @@ const MessageInput = ({ isLoading }) => {
     if (message.trim() && !isLoading) {
       sendMessage(message);
       setMessage('');
+      // Reset textarea height
+      if (textareaRef.current) {
+        textareaRef.current.style.height = 'auto';
+      }
     }
   };
 
@@ -34,42 +36,40 @@ const MessageInput = ({ isLoading }) => {
 
   return (
     <form onSubmit={handleSubmit} className="relative">
-      <div className="relative flex items-end rounded-xl border border-divider bg-input shadow-sm focus-within:ring-1 focus-within:ring-primary focus-within:border-primary">
+      <div className="relative flex items-end rounded-xl border border-divider bg-input shadow-sm focus-within:ring-2 focus-within:ring-primary focus-within:ring-opacity-50">
         <textarea
           ref={textareaRef}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Message xBAI..."
-          className="flex-1 max-h-[200px] p-4 pr-12 bg-transparent border-none resize-none focus:outline-none text-text placeholder-text-secondary"
-          rows="1"
           disabled={isLoading}
+          className="w-full resize-none bg-transparent py-3 pl-4 pr-12 text-text focus:outline-none min-h-[56px] max-h-[200px]"
+          rows={1}
         />
         
-        <div className="absolute bottom-3 right-3 flex">
-          {isLoading ? (
+        <div className="absolute bottom-2 right-2 flex">
+          {message && (
             <button
               type="button"
-              onClick={stopGenerating}
-              className="p-2 rounded-full text-red-500 hover:bg-hover transition-colors"
-              title="Stop generating"
+              onClick={() => setMessage('')}
+              className="p-2 text-text-secondary hover:text-text rounded-full hover:bg-hover mr-1"
             >
-              <FiStopCircle size={20} />
-            </button>
-          ) : (
-            <button
-              type="submit"
-              disabled={!message.trim()}
-              className={`p-2 rounded-full ${
-                message.trim() 
-                  ? 'text-primary hover:bg-hover' 
-                  : 'text-text-secondary'
-              } transition-colors`}
-              title="Send message"
-            >
-              <FiSend size={20} />
+              <FiX size={18} />
             </button>
           )}
+          
+          <button
+            type="submit"
+            disabled={!message.trim() || isLoading}
+            className={`p-2 rounded-full ${
+              message.trim() && !isLoading
+                ? 'bg-primary-color text-white hover:bg-opacity-90'
+                : 'bg-hover text-text-secondary cursor-not-allowed'
+            }`}
+          >
+            <FiSend size={18} />
+          </button>
         </div>
       </div>
     </form>

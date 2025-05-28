@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { FiMessageSquare, FiCode, FiSearch, FiHelpCircle } from 'react-icons/fi';
 import Logo from './Logo';
+import { ChatContext } from '../context/ChatContext';
 
 const WelcomeScreen = () => {
+  const { sendMessage } = useContext(ChatContext);
+
+  const handleExampleClick = (example) => {
+    sendMessage(example);
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center h-full p-6 text-center">
+    <div className="flex flex-col items-center justify-center min-h-[80vh] py-6 text-center">
       <div className="mb-8">
         <Logo size="xlarge" />
       </div>
@@ -14,7 +21,7 @@ const WelcomeScreen = () => {
         Your intelligent AI assistant powered by xBesh. Ask me anything, and I'll do my best to help you.
       </p>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
         <SuggestionCard 
           icon={<FiMessageSquare />}
           title="General Conversation"
@@ -24,6 +31,7 @@ const WelcomeScreen = () => {
             "What are some healthy breakfast ideas?",
             "Explain climate change in simple terms"
           ]}
+          onExampleClick={handleExampleClick}
         />
         
         <SuggestionCard 
@@ -33,8 +41,9 @@ const WelcomeScreen = () => {
           examples={[
             "Write a function to reverse a string in JavaScript",
             "Explain React hooks",
-            "Debug this Python code: [paste your code]"
+            "How do I implement a binary search tree?"
           ]}
+          onExampleClick={handleExampleClick}
         />
         
         <SuggestionCard 
@@ -46,6 +55,7 @@ const WelcomeScreen = () => {
             "Summarize the key points of machine learning",
             "What are the latest advancements in renewable energy?"
           ]}
+          onExampleClick={handleExampleClick}
         />
         
         <SuggestionCard 
@@ -57,13 +67,14 @@ const WelcomeScreen = () => {
             "Help me brainstorm names for my new product",
             "Create a workout plan for beginners"
           ]}
+          onExampleClick={handleExampleClick}
         />
       </div>
     </div>
   );
 };
 
-const SuggestionCard = ({ icon, title, description, examples }) => {
+const SuggestionCard = ({ icon, title, description, examples, onExampleClick }) => {
   return (
     <div className="bg-card rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
       <div className="flex items-center mb-3">
@@ -76,6 +87,7 @@ const SuggestionCard = ({ icon, title, description, examples }) => {
           <div 
             key={index}
             className="text-xs bg-hover p-2 rounded-lg cursor-pointer hover:bg-active transition-colors"
+            onClick={() => onExampleClick(example)}
           >
             "{example}"
           </div>
