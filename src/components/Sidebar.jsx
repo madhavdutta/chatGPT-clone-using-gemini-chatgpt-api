@@ -52,13 +52,13 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
 
   return (
     <aside 
-      className={`fixed md:relative z-30 h-full w-64 bg-sidebar border-r border-divider transition-all duration-300 ${
-        isOpen ? 'left-0' : '-left-64'
+      className={`fixed md:relative z-30 h-full w-72 bg-sidebar border-r border-divider transition-all duration-300 shadow-lg ${
+        isOpen ? 'left-0' : '-left-72'
       }`}
     >
       <div className="flex flex-col h-full">
-        <div className="p-4 border-b border-divider">
-          <div className="flex items-center justify-center mb-4">
+        <div className="p-6 border-b border-divider">
+          <div className="flex items-center justify-center mb-6">
             <Logo size="medium" />
           </div>
           <button
@@ -70,13 +70,13 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
           </button>
         </div>
         
-        <div className="flex-1 overflow-y-auto p-2">
+        <div className="flex-1 overflow-y-auto p-3">
           {chats.length > 0 ? (
-            <ul className="space-y-1">
+            <ul className="space-y-2">
               {chats.map((chat) => (
                 <li key={chat.id}>
                   {editingChatId === chat.id ? (
-                    <div className="flex items-center p-2 rounded-lg bg-hover">
+                    <div className="flex items-center p-3 rounded-lg bg-hover">
                       <input
                         type="text"
                         value={editingTitle}
@@ -103,12 +103,12 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
                     </div>
                   ) : (
                     <div 
-                      className={`flex items-center p-2 rounded-lg cursor-pointer group ${
+                      className={`flex items-center p-3 rounded-lg cursor-pointer group ${
                         activeChatId === chat.id ? 'bg-active text-text' : 'hover:bg-hover text-text-secondary'
                       }`}
                       onClick={() => handleChatClick(chat.id)}
                     >
-                      <FiMessageSquare className="mr-2 flex-shrink-0" />
+                      <FiMessageSquare className="mr-3 flex-shrink-0" />
                       <span className="flex-1 truncate">{chat.title}</span>
                       
                       <div className="flex opacity-0 group-hover:opacity-100 transition-opacity">

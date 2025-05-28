@@ -45,7 +45,7 @@ function App() {
           
           <div className="flex-1 flex flex-col h-full overflow-hidden">
             {!isMobile && (
-              <header className="flex items-center justify-between p-4 border-b border-divider">
+              <header className="flex items-center justify-between p-4 border-b border-divider bg-header">
                 <div className="flex items-center">
                   <button 
                     onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -58,7 +58,11 @@ function App() {
               </header>
             )}
             
-            <ChatArea />
+            <div className="flex-1 flex justify-center">
+              <div className="w-full max-w-5xl">
+                <ChatArea />
+              </div>
+            </div>
           </div>
         </div>
       </ThemeProvider>

@@ -1,28 +1,33 @@
-import { FiImage, FiEdit, FiFileText, FiUsers } from 'react-icons/fi';
+import React from 'react';
+import { FiUpload, FiImage, FiMic } from 'react-icons/fi';
 
 const FeatureButtons = () => {
   return (
-    <div className="flex justify-center mt-4 space-x-2 overflow-x-auto pb-2">
-      <FeatureButton icon={<FiImage />} label="Create Images" />
-      <FeatureButton icon={<FiEdit />} label="Edit Image" />
-      <FeatureButton icon={<FiFileText />} label="Latest News" />
-      <FeatureButton icon={<FiUsers />} label="Personas" />
-      <FeatureButton icon={<FiUsers />} label="Workspaces" isNew />
+    <div className="flex justify-center mt-2 space-x-2">
+      <button 
+        className="p-2 text-xs text-text-secondary hover:text-text flex items-center gap-1 rounded-md hover:bg-hover transition-colors"
+        title="Upload file"
+      >
+        <FiUpload size={14} />
+        <span>Upload</span>
+      </button>
+      
+      <button 
+        className="p-2 text-xs text-text-secondary hover:text-text flex items-center gap-1 rounded-md hover:bg-hover transition-colors"
+        title="Generate image"
+      >
+        <FiImage size={14} />
+        <span>Image</span>
+      </button>
+      
+      <button 
+        className="p-2 text-xs text-text-secondary hover:text-text flex items-center gap-1 rounded-md hover:bg-hover transition-colors"
+        title="Voice input"
+      >
+        <FiMic size={14} />
+        <span>Voice</span>
+      </button>
     </div>
-  );
-};
-
-const FeatureButton = ({ icon, label, isNew = false }) => {
-  return (
-    <button className="flex items-center px-3 py-2 bg-input border border-divider rounded-lg hover:bg-hover transition-colors whitespace-nowrap">
-      <span className="mr-2">{icon}</span>
-      <span>{label}</span>
-      {isNew && (
-        <span className="ml-1 text-xs bg-primary-color text-white px-1.5 rounded-full">
-          New
-        </span>
-      )}
-    </button>
   );
 };
 

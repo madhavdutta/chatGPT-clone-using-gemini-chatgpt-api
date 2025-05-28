@@ -1,66 +1,85 @@
-import { useContext } from 'react';
-import { ChatContext } from '../context/ChatContext';
+import React from 'react';
+import { FiMessageSquare, FiCode, FiSearch, FiHelpCircle } from 'react-icons/fi';
 import Logo from './Logo';
 
 const WelcomeScreen = () => {
-  const { createNewChat } = useContext(ChatContext);
-
   return (
-    <div className="flex flex-col items-center justify-center h-full p-4 md:p-6">
-      <div className="flex items-center mb-8">
+    <div className="flex flex-col items-center justify-center h-full p-6 text-center">
+      <div className="mb-8">
         <Logo size="xlarge" />
       </div>
       
-      <div className="w-full max-w-3xl">
-        <div className="mb-8">
-          <div className="text-center mb-4">
-            <h2 className="text-xl font-medium">How can I help you today?</h2>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <button 
-              className="p-4 border border-divider rounded-lg hover:bg-hover transition-colors text-left"
-              onClick={createNewChat}
-            >
-              <h3 className="font-medium mb-1">Explain quantum computing</h3>
-              <p className="text-text-secondary text-sm">Provide a simple explanation of quantum principles</p>
-            </button>
-            
-            <button 
-              className="p-4 border border-divider rounded-lg hover:bg-hover transition-colors text-left"
-              onClick={createNewChat}
-            >
-              <h3 className="font-medium mb-1">Creative writing prompt</h3>
-              <p className="text-text-secondary text-sm">Generate a story about a space explorer</p>
-            </button>
-            
-            <button 
-              className="p-4 border border-divider rounded-lg hover:bg-hover transition-colors text-left"
-              onClick={createNewChat}
-            >
-              <h3 className="font-medium mb-1">Code a simple game</h3>
-              <p className="text-text-secondary text-sm">Help me build a tic-tac-toe game with JavaScript</p>
-            </button>
-            
-            <button 
-              className="p-4 border border-divider rounded-lg hover:bg-hover transition-colors text-left"
-              onClick={createNewChat}
-            >
-              <h3 className="font-medium mb-1">Plan a trip to Japan</h3>
-              <p className="text-text-secondary text-sm">Create a 7-day itinerary for Tokyo and Kyoto</p>
-            </button>
-          </div>
-        </div>
-      </div>
+      <h1 className="text-3xl font-bold mb-4">Welcome to xBAI</h1>
+      <p className="text-text-secondary max-w-lg mb-8">
+        Your intelligent AI assistant powered by xBesh. Ask me anything, and I'll do my best to help you.
+      </p>
       
-      <div className="fixed bottom-4 right-4 bg-black text-white rounded-xl p-4 flex items-center shadow-lg">
-        <div>
-          <div className="font-bold">SuperxBAI</div>
-          <div className="text-xs">Fewer rate limits, more capabilities</div>
-        </div>
-        <button className="ml-4 bg-white text-black rounded-full px-4 py-1 text-sm font-medium">
-          Go Super
-        </button>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl w-full">
+        <SuggestionCard 
+          icon={<FiMessageSquare />}
+          title="General Conversation"
+          description="Chat about any topic or ask questions about virtually anything."
+          examples={[
+            "Tell me about quantum computing",
+            "What are some healthy breakfast ideas?",
+            "Explain climate change in simple terms"
+          ]}
+        />
+        
+        <SuggestionCard 
+          icon={<FiCode />}
+          title="Coding & Development"
+          description="Get help with programming, debugging, or learning new technologies."
+          examples={[
+            "Write a function to reverse a string in JavaScript",
+            "Explain React hooks",
+            "Debug this Python code: [paste your code]"
+          ]}
+        />
+        
+        <SuggestionCard 
+          icon={<FiSearch />}
+          title="Research & Analysis"
+          description="Explore topics in depth or get summaries of complex subjects."
+          examples={[
+            "Compare and contrast different economic systems",
+            "Summarize the key points of machine learning",
+            "What are the latest advancements in renewable energy?"
+          ]}
+        />
+        
+        <SuggestionCard 
+          icon={<FiHelpCircle />}
+          title="Creative Assistance"
+          description="Get help with writing, brainstorming, or creative projects."
+          examples={[
+            "Write a short story about a time traveler",
+            "Help me brainstorm names for my new product",
+            "Create a workout plan for beginners"
+          ]}
+        />
+      </div>
+    </div>
+  );
+};
+
+const SuggestionCard = ({ icon, title, description, examples }) => {
+  return (
+    <div className="bg-card rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+      <div className="flex items-center mb-3">
+        <div className="text-primary text-xl mr-2">{icon}</div>
+        <h3 className="font-semibold">{title}</h3>
+      </div>
+      <p className="text-text-secondary text-sm mb-3">{description}</p>
+      <div className="space-y-2">
+        {examples.map((example, index) => (
+          <div 
+            key={index}
+            className="text-xs bg-hover p-2 rounded-lg cursor-pointer hover:bg-active transition-colors"
+          >
+            "{example}"
+          </div>
+        ))}
       </div>
     </div>
   );
