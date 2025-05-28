@@ -1,0 +1,230 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Dark theme (default) */
+  --color-bg-primary: #1a1a1a;
+  --color-bg-secondary: #222222;
+  --color-bg-sidebar: #141414;
+  --color-bg-header: #141414;
+  --color-bg-card: #1e1e1e;
+  --color-bg-hover: rgba(255, 255, 255, 0.05);
+  --color-bg-active: rgba(255, 255, 255, 0.1);
+  --color-bg-message: #2a2a2a;
+  --color-bg-input: #2a2a2a;
+  --color-bg-code: #1e1e1e;
+  --color-bg-code-inline: rgba(255, 255, 255, 0.1);
+  --color-bg-table-header: #2a2a2a;
+  
+  --color-text: #e0e0e0;
+  --color-text-secondary: #a0a0a0;
+  --color-error-text: #f87171;
+  
+  --color-primary: #10b981;
+  --color-accent: #6366f1;
+  --color-link: #60a5fa;
+  --color-error: #ef4444;
+  
+  --color-divider: #333333;
+  --color-blockquote: #4b5563;
+}
+
+.light-theme {
+  /* Light theme */
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f9fafb;
+  --color-bg-sidebar: #f3f4f6;
+  --color-bg-header: #f3f4f6;
+  --color-bg-card: #f9fafb;
+  --color-bg-hover: rgba(0, 0, 0, 0.05);
+  --color-bg-active: rgba(0, 0, 0, 0.1);
+  --color-bg-message: #f3f4f6;
+  --color-bg-input: #f3f4f6;
+  --color-bg-code: #f3f4f6;
+  --color-bg-code-inline: rgba(0, 0, 0, 0.05);
+  --color-bg-table-header: #f3f4f6;
+  
+  --color-text: #1f2937;
+  --color-text-secondary: #6b7280;
+  --color-error-text: #dc2626;
+  
+  --color-primary: #10b981;
+  --color-accent: #6366f1;
+  --color-link: #2563eb;
+  --color-error: #ef4444;
+  
+  --color-divider: #e5e7eb;
+  --color-blockquote: #9ca3af;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-bg-primary);
+    color: var(--color-text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+}
+
+@layer components {
+  .bg-primary {
+    background-color: var(--color-bg-primary);
+  }
+  
+  .bg-secondary {
+    background-color: var(--color-bg-secondary);
+  }
+  
+  .bg-sidebar {
+    background-color: var(--color-bg-sidebar);
+  }
+  
+  .bg-header {
+    background-color: var(--color-bg-header);
+  }
+  
+  .bg-card {
+    background-color: var(--color-bg-card);
+  }
+  
+  .bg-hover {
+    background-color: var(--color-bg-hover);
+  }
+  
+  .bg-active {
+    background-color: var(--color-bg-active);
+  }
+  
+  .bg-message {
+    background-color: var(--color-bg-message);
+  }
+  
+  .bg-input {
+    background-color: var(--color-bg-input);
+  }
+  
+  .bg-code {
+    background-color: var(--color-bg-code);
+  }
+  
+  .bg-code-inline {
+    background-color: var(--color-bg-code-inline);
+  }
+  
+  .bg-table-header {
+    background-color: var(--color-bg-table-header);
+  }
+  
+  .text-text {
+    color: var(--color-text);
+  }
+  
+  .text-text-secondary {
+    color: var(--color-text-secondary);
+  }
+  
+  .text-error-text {
+    color: var(--color-error-text);
+  }
+  
+  .bg-primary-color {
+    background-color: var(--color-primary);
+  }
+  
+  .bg-accent {
+    background-color: var(--color-accent);
+  }
+  
+  .text-link {
+    color: var(--color-link);
+  }
+  
+  .bg-error {
+    background-color: var(--color-error);
+  }
+  
+  .border-divider {
+    border-color: var(--color-divider);
+  }
+  
+  .border-blockquote {
+    border-color: var(--color-blockquote);
+  }
+
+  .text-primary {
+    color: var(--color-primary);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-divider);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-secondary);
+}
+
+/* Markdown styles */
+.markdown {
+  @apply text-text;
+}
+
+.markdown pre {
+  @apply rounded-lg overflow-hidden my-4;
+}
+
+.markdown code {
+  font-family: 'Fira Code', 'Courier New', Courier, monospace;
+}
+
+/* Animation for cursor */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.animate-blink {
+  animation: blink 1s infinite;
+}
+
+/* Animation for typing indicator */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-pulse {
+  animation: pulse 1.5s infinite;
+}
+
+/* Surface styles */
+.bg-surface {
+  background-color: var(--color-bg-primary);
+}
+
+/* Logo inversion based on theme */
+.dark-theme .invert {
+  filter: invert(1);
+}
+
+.light-theme .invert-0 {
+  filter: invert(0);
+}
+
+/* Logo container */
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
